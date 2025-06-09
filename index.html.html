@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير الأداء الشهري - ريم العنزي</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧾</text></svg>">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#059669',
+                        'primary-dark': '#047857',
+                        'neutral-bg': '#f9fafb',
+                        'neutral-bg-dark': '#111827',
+                        'card-bg': '#ffffff',
+                        'card-bg-dark': '#1f2937',
+                        'text-main': '#1f2937',
+                        'text-main-dark': '#f9fafb',
+                        'text-muted': '#6b7280',
+                        'text-muted-dark': '#9ca3af',
+                        'border-light': '#e5e7eb',
+                        'border-dark': '#374151',
+                    },
+                    fontFamily: {
+                        'sans': ['Cairo', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        @media print {
+            body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .no-print { display: none !important; }
+            main, .report-section { box-shadow: none !important; border: 1px solid #e5e7eb !important; page-break-inside: avoid; }
+            body > div, main { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .fade-in-delay-1 { animation-delay: 0.1s; }
+        .fade-in-delay-2 { animation-delay: 0.2s; }
+        .fade-in-delay-3 { animation-delay: 0.3s; }
+        .fade-in-delay-4 { animation-delay: 0.4s; }
+        .fade-in-delay-5 { animation-delay: 0.5s; }
+    </style>
+</head>
+
+<body class="font-sans bg-neutral-bg dark:bg-neutral-bg-dark text-text-main dark:text-text-main-dark transition-colors duration-300">
+
+    <div class="container mx-auto p-4 md:p-6 lg:p-8">
+        
+        <header class="no-print mb-6 flex items-center justify-between">
+            <h1 id="report-title-header" class="text-xl font-bold text-primary"></h1>
+            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                <button id="print-btn" aria-label="Print Report" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.32 0c0-1.24-.282-2.433-.829-3.502M6.34 18c0-1.24.282-2.433.829-3.502m0 0a3 3 0 0 1-1.01-2.097V6.75a3 3 0 0 1 3-3h5.25a3 3 0 0 1 3 3v2.152c0 .839-.23 1.655-.658 2.351m-8.182 0a3 3 0 0 0 1.01 2.097" /></svg>
+                </button>
+                <button id="theme-toggle-btn" aria-label="Toggle Dark Mode" class="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hidden"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>
+                </button>
+                <button id="lang-toggle-btn" class="px-3 py-2 text-sm font-semibold rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"></button>
+            </div>
+        </header>
+
+        <main>
+            <!-- SECTION 1: EMPLOYEE INFO -->
+            <section class="report-section fade-in bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-soft flex flex-col md:flex-row items-center gap-6">
+                <img id="employee-photo" src="https://avatar.iran.liara.run/public/girl?username=Reem" alt="Employee Photo" class="w-28 h-28 rounded-full object-cover border-4 border-gray-200 dark:border-gray-600">
+                <div class="flex-1 text-center md:text-start rtl:md:text-right">
+                    <h2 id="employee-name" class="text-3xl font-bold text-primary"></h2>
+                    <p id="employee-title-dept" class="mt-1 text-lg text-text-muted dark:text-text-muted-dark"></p>
+                    <p id="employee-nationality" class="mt-1 text-text-muted dark:text-text-muted-dark"></p>
+                </div>
+                <div class="text-center md:text-end rtl:md:text-left border-t-2 md:border-t-0 md:border-s-2 rtl:md:border-s-0 rtl:md:border-e-2 border-dashed border-gray-300 dark:border-gray-600 pt-4 md:pt-0 md:ps-6 rtl:md:ps-0 rtl:md:pe-6">
+                    <p id="report-month-label" class="font-semibold"></p>
+                    <p id="gregorian-date" class="text-lg"></p>
+                    <p id="hijri-date" class="text-lg text-text-muted dark:text-text-muted-dark"></p>
+                </div>
+            </section>
+            
+            <!-- SECTION 2: KPI DASHBOARD -->
+            <section class="mt-8">
+                <h3 id="kpi-dashboard-title" class="text-2xl font-bold mb-4"></h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+                    <!-- KPI Cards will be injected here by JS -->
+                </div>
+            </section>
+
+            <!-- SECTION 3: DATA VISUALIZATIONS -->
+            <section class="mt-8">
+                <h3 id="visualizations-title" class="text-2xl font-bold mb-4"></h3>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <div class="report-section fade-in fade-in-delay-3 lg:col-span-3 bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-soft">
+                        <h4 id="rev-exp-chart-title" class="text-lg font-semibold mb-4"></h4>
+                        <div class="h-80"><canvas id="revExpChart"></canvas></div>
+                    </div>
+                    <div class="report-section fade-in fade-in-delay-4 lg:col-span-2 bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-soft">
+                        <h4 id="expense-dist-chart-title" class="text-lg font-semibold mb-4"></h4>
+                        <div class="h-80 flex items-center justify-center"><canvas id="expenseDistributionChart"></canvas></div>
+                    </div>
+                    <div class="report-section fade-in fade-in-delay-5 lg:col-span-5 bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-soft mt-6">
+                        <h4 id="cashflow-chart-title" class="text-lg font-semibold mb-4"></h4>
+                        <div class="h-80"><canvas id="cashflowChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: DETAILED ACTIVITIES TABLE -->
+            <section class="report-section fade-in fade-in-delay-5 mt-8 bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-soft">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                    <h3 id="activities-title" class="text-2xl font-bold"></h3>
+                    <div class="relative w-full md:w-auto">
+                        <input id="search-input" type="text" class="w-full md:w-64 ps-10 pe-4 py-2 border border-border-light dark:border-border-dark bg-neutral-bg dark:bg-neutral-bg-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" />
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none text-text-muted dark:text-text-muted-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left rtl:text-right text-text-muted dark:text-text-muted-dark">
+                        <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <!-- Table headers will be injected here by JS -->
+                            </tr>
+                        </thead>
+                        <tbody id="activities-table-body">
+                            <!-- Table rows will be injected here by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- SECTION 5: INSIGHTS & COMMENTARY -->
+            <section class="report-section fade-in fade-in-delay-5 mt-8 bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-soft">
+                <h3 id="insights-title" class="text-2xl font-bold mb-4"></h3>
+                <div class="space-y-6">
+                    <div>
+                        <h4 id="insights-success-title" class="text-lg font-semibold text-green-600 dark:text-green-400 mb-2"></h4>
+                        <p id="insights-success-content" class="text-text-muted dark:text-text-muted-dark leading-relaxed"></p>
+                    </div>
+                    <div>
+                        <h4 id="insights-challenges-title" class="text-lg font-semibold text-amber-600 dark:text-amber-400 mb-2"></h4>
+                        <p id="insights-challenges-content" class="text-text-muted dark:text-text-muted-dark leading-relaxed"></p>
+                    </div>
+                    <div>
+                        <h4 id="insights-recommendations-title" class="text-lg font-semibold text-primary mb-2"></h4>
+                        <p id="insights-recommendations-content" class="text-text-muted dark:text-text-muted-dark leading-relaxed"></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center text-xs text-text-muted dark:text-text-muted-dark mt-8 no-print">
+            <p id="footer-text"></p>
+        </footer>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // =================================================================================
+        // DATA STORE
+        // =================================================================================
+        const reportData = {
+            employeeInfo: {
+                fullName: { ar: 'ريم العنزي', en: 'Reem Al-Enezi' },
+                jobTitle: { ar: 'محاسبة أولى', en: 'Senior Accountant' },
+                department: { ar: 'المالية والمحاسبة', en: 'Finance & Accounting' },
+                nationality: { ar: 'سعودية', en: 'Saudi' },
+            },
+            kpis: [
+                { id: 'revenue', label: { ar: 'الإيرادات المحقَّقة (ر.س)', en: 'Revenue Recognized (SAR)' }, value: 450000, format: 'currency' },
+                { id: 'profit-margin', label: { ar: 'هامش الربح الإجمالي (%)', en: 'Gross Profit Margin (%)' }, value: 62.5, format: 'float' },
+                { id: 'close-accuracy', label: { ar: 'دقة إغلاق نهاية الشهر (%)', en: 'Month-End Close Accuracy (%)' }, value: 99.8, format: 'float' },
+                { id: 'dso', label: { ar: 'متوسط أيام تحصيل الذمم المدينة', en: 'Days Sales Outstanding (DSO)' }, value: 38, format: 'integer' },
+                { id: 'opex', label: { ar: 'النفقات التشغيلية (ر.س)', en: 'Operating Expenses (SAR)' }, value: 85000, format: 'currency' },
+                { id: 'invoices', label: { ar: 'عدد الفواتير المعالَجة', en: 'Invoices Processed' }, value: 215, format: 'integer' }
+            ],
+            charts: {
+                revExp: {
+                    labels: { ar: ['الأسبوع ١', 'الأسبوع ٢', 'الأسبوع ٣', 'الأسبوع ٤'], en: ['Week 1', 'Week 2', 'Week 3', 'Week 4'] },
+                    datasets: [
+                        { label: { ar: 'الإيرادات', en: 'Revenue' }, data: [110000, 150000, 95000, 95000], backgroundColor: '#059669' },
+                        { label: { ar: 'النفقات', en: 'Expenses' }, data: [40000, 45000, 38000, 42000], backgroundColor: '#ef4444' }
+                    ]
+                },
+                expenseDistribution: {
+                    labels: { ar: ['رواتب', 'تسويق', 'تشغيل', 'موردين'], en: ['Salaries', 'Marketing', 'Operations', 'Suppliers'] },
+                    data: [150000, 45000, 85000, 68000],
+                    colors: ['#059669', '#3b82f6', '#f59e0b', '#6b7280']
+                },
+                cashflow: {
+                    labels: { ar: ['أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر'], en: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'] },
+                    data: [50000, -15000, 80000, 65000, 20000, 95000]
+                }
+            },
+            activities: [
+                { date: '2023-09-30', type: { ar: 'إغلاق شهري', en: 'Month-End Close' }, description: { ar: 'إتمام التسويات وإغلاق دفاتر شهر سبتمبر', en: 'Finalizing reconciliations and closing September books' }, status: { ar: 'مكتمل', en: 'Completed' } },
+                { date: '2023-09-28', type: { ar: 'تسوية بنكية', en: 'Bank Reconciliation' }, description: { ar: 'تسوية حساب بنك الرياض الرئيسي', en: 'Reconciliation of primary Riyad Bank account' }, status: { ar: 'مكتمل', en: 'Completed' } },
+                { date: '2023-09-25', type: { ar: 'تقرير ضريبي', en: 'Tax Report' }, description: { ar: 'إعداد وتقديم إقرار ضريبة القيمة المضافة للربع الثالث', en: 'Preparing and filing Q3 VAT return' }, status: { ar: 'قيد المراجعة', en: 'Under Review' } },
+                { date: '2023-09-20', type: { ar: 'تدقيق مصروفات', en: 'Expense Audit' }, description: { ar: 'تدقيق تقارير السفر والمصروفات لفريق المبيعات', en: 'Auditing travel and expense reports for sales team' }, status: { ar: 'مكتمل', en: 'Completed' } },
+                { date: '2023-09-15', type: { ar: 'تحصيل ديون', en: 'Collections' }, description: { ar: 'متابعة الدفعات المتأخرة من العميل (شركة ABC)', en: 'Follow-up on overdue payments from Client ABC' }, status: { ar: 'متأخر', en: 'Delayed' } },
+                { date: '2023-09-10', type: { ar: 'إعداد فاتورة', en: 'Invoice Preparation' }, description: { ar: 'إصدار الفاتورة رقم F-2023-305 للمشروع الجديد', en: 'Issuing invoice #F-2023-305 for new project' }, status: { ar: 'مكتمل', en: 'Completed' } },
+            ],
+            insights: {
+                success: { ar: 'تم الحفاظ على هامش ربح إجمالي قوي بنسبة 62.5% من خلال الإدارة الفعالة لتكاليف الموردين. كما تم إنجاز عملية الإغلاق الشهري بدقة 99.8%، مما يعكس جودة العمل.', en: 'Maintained a strong gross profit margin of 62.5% through effective management of supplier costs. The month-end closing process was completed with 99.8% accuracy, reflecting high quality work.'},
+                challenges: { ar: 'ارتفع متوسط أيام تحصيل الذمم المدينة (DSO) إلى 38 يوماً، وهو أعلى من الهدف (30 يوماً). هذا يشير إلى تباطؤ في تحصيل المستحقات وقد يؤثر على السيولة النقدية.', en: 'Days Sales Outstanding (DSO) has increased to 38 days, which is above the target of 30 days. This indicates a slowdown in collections and could impact cash flow.'},
+                recommendations: { ar: 'تفعيل نظام تذكير آلي بالدفعات للعملاء الذين تتجاوز فواتيرهم 30 يوماً. كذلك، يُوصى بجدولة اجتماع مع فريق المبيعات لمناقشة شروط الدفع للعملاء الجدد.', en: 'Implement an automated payment reminder system for clients with invoices overdue by 30+ days. Also, recommend scheduling a meeting with the sales team to discuss payment terms for new clients.'},
+            }
+        };
+
+        const i18n = {
+            ar: {
+                reportTitleHeader: "تقرير الأداء المالي",
+                reportMonthLabel: "شهر التقرير",
+                titleDeptSeparator: " | ",
+                kpiDashboardTitle: "مؤشرات الأداء الرئيسية",
+                visualizationsTitle: "الرسوم البيانية المالية",
+                revExpChartTitle: "مقارنة الإيرادات بالنفقات (أسبوعياً)",
+                expenseDistChartTitle: "توزيع النفقات حسب الفئة",
+                cashflowChartTitle: "اتجاه صافي التدفق النقدي (آخر ٦ أشهر)",
+                cashflowChartYLabel: "المبلغ (ر.س)",
+                activitiesTitle: "تفاصيل الأنشطة المحاسبية",
+                activitiesSearchPlaceholder: "بحث في الأنشطة...",
+                activitiesTableHeaders: { date: "التاريخ", type: "نوع النشاط", description: "الوصف", status: "الحالة" },
+                insightsTitle: "تحليل مالي وتوصيات",
+                insightsSuccessTitle: "✅ نقاط القوة المالية",
+                insightsChallengesTitle: "⚠️ نقاط تتطلب الانتباه",
+                insightsRecommendationsTitle: "💡 توصيات للتحسين",
+                langToggle: "English",
+                printBtnLabel: "طباعة / تصدير PDF",
+                footerText: `تم إنشاء هذا التقرير في ${new Date().toLocaleDateString('ar-SA-u-ca-gregory', { year: 'numeric', month: 'long', day: 'numeric' })}`
+            },
+            en: {
+                reportTitleHeader: "Financial Performance Report",
+                reportMonthLabel: "Report Month",
+                titleDeptSeparator: " | ",
+                kpiDashboardTitle: "Key Performance Indicators",
+                visualizationsTitle: "Financial Visualizations",
+                revExpChartTitle: "Weekly Revenue vs. Expenses",
+                expenseDistChartTitle: "Expense Distribution by Category",
+                cashflowChartTitle: "Net Cash Flow Trend (Last 6 Months)",
+                cashflowChartYLabel: "Amount (SAR)",
+                activitiesTitle: "Detailed Accounting Activities",
+                activitiesSearchPlaceholder: "Search activities...",
+                activitiesTableHeaders: { date: "Date", type: "Activity Type", description: "Description", status: "Status" },
+                insightsTitle: "Financial Analysis & Recommendations",
+                insightsSuccessTitle: "✅ Financial Strengths",
+                insightsChallengesTitle: "⚠️ Areas for Attention",
+                insightsRecommendationsTitle: "💡 Recommendations for Improvement",
+                langToggle: "العربية",
+                printBtnLabel: "Print / Export PDF",
+                footerText: `Report generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`
+            }
+        };
+
+        let state = { lang: 'ar', theme: localStorage.getItem('theme') || 'light', sort: { column: 'date', direction: 'desc' } };
+        const dom = {
+            html: document.documentElement,
+            themeToggleBtn: document.getElementById('theme-toggle-btn'),
+            themeIconLight: document.getElementById('theme-icon-light'),
+            themeIconDark: document.getElementById('theme-icon-dark'),
+            langToggleBtn: document.getElementById('lang-toggle-btn'),
+            printBtn: document.getElementById('print-btn'),
+            searchInput: document.getElementById('search-input'),
+            activitiesTableBody: document.getElementById('activities-table-body'),
+            activitiesThead: document.querySelector('thead tr')
+        };
+        let chartInstances = {};
+        
+        const T = (key) => i18n[state.lang][key] || key;
+        
+        const animateCountUp = (el, endValue, duration = 1500, format = 'integer') => {
+            let start = 0;
+            const startTime = performance.now();
+            const step = (currentTime) => {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                let currentVal = start + progress * (endValue - start);
+                let locale = state.lang === 'ar' ? 'ar-SA' : 'en-US';
+
+                if (format === 'currency') {
+                    el.textContent = Math.floor(currentVal).toLocaleString(locale) + (state.lang === 'ar' ? ' ر.س' : ' SAR');
+                } else if (format === 'float') {
+                    el.textContent = parseFloat(currentVal.toFixed(1)).toLocaleString(locale);
+                } else {
+                    el.textContent = Math.floor(currentVal).toLocaleString(locale);
+                }
+                
+                if (progress < 1) requestAnimationFrame(step);
+                else {
+                    if (format === 'currency') el.textContent = endValue.toLocaleString(locale) + (state.lang === 'ar' ? ' ر.س' : ' SAR');
+                    else el.textContent = endValue.toLocaleString(locale);
+                }
+            };
+            requestAnimationFrame(step);
+        };
+
+        const getStatusBadgeClasses = (status) => {
+            const statusLower = status.en.toLowerCase();
+            switch (statusLower) {
+                case 'completed': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+                case 'under review': return 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300';
+                case 'delayed': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+                default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+            }
+        };
+        
+        const renderHeader = () => {
+            const now = new Date();
+            document.getElementById('report-title-header').textContent = T('reportTitleHeader');
+            document.getElementById('employee-name').textContent = reportData.employeeInfo.fullName[state.lang];
+            document.getElementById('employee-title-dept').textContent = `${reportData.employeeInfo.jobTitle[state.lang]}${T('titleDeptSeparator')}${reportData.employeeInfo.department[state.lang]}`;
+            document.getElementById('employee-nationality').textContent = reportData.employeeInfo.nationality[state.lang];
+            document.getElementById('report-month-label').textContent = T('reportMonthLabel');
+            document.getElementById('gregorian-date').textContent = now.toLocaleDateString(state.lang === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-US', { year: 'numeric', month: 'long' });
+            document.getElementById('hijri-date').textContent = new Intl.DateTimeFormat(state.lang === 'ar' ? 'ar-SA-u-ca-islamic' : 'en-US-u-ca-islamic', { year: 'numeric', month: 'long' }).format(now);
+        };
+
+        const renderKPIs = () => {
+            const container = document.querySelector('.grid.grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-6');
+            container.innerHTML = '';
+            reportData.kpis.forEach((kpi, index) => {
+                const card = document.createElement('div');
+                card.className = `report-section fade-in fade-in-delay-${index} bg-card-bg dark:bg-card-bg-dark p-4 rounded-xl shadow-soft text-center`;
+                card.innerHTML = `<p class="text-sm text-text-muted dark:text-text-muted-dark mb-2">${kpi.label[state.lang]}</p><p class="text-3xl font-bold text-primary" id="kpi-value-${kpi.id}"></p>`;
+                container.appendChild(card);
+                setTimeout(() => animateCountUp(document.getElementById(`kpi-value-${kpi.id}`), kpi.value, 1500, kpi.format), 100 * (index + 1));
+            });
+        };
+
+        const renderCharts = () => {
+            Chart.defaults.font.family = "'Cairo', sans-serif";
+            Chart.defaults.color = state.theme === 'dark' ? '#9ca3af' : '#6b7280';
+            Object.values(chartInstances).forEach(chart => chart.destroy());
+            
+            chartInstances.revExp = new Chart(document.getElementById('revExpChart'), {
+                type: 'bar', data: { labels: reportData.charts.revExp.labels[state.lang], datasets: reportData.charts.revExp.datasets.map(ds => ({ ...ds, label: ds.label[state.lang], borderRadius: 4 })) },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { color: state.theme === 'dark' ? '#374151' : '#e5e7eb' } } }, plugins: { legend: { position: 'top', rtl: state.lang === 'ar' }, tooltip: { rtl: state.lang === 'ar' } } }
+            });
+
+            chartInstances.expenseDist = new Chart(document.getElementById('expenseDistributionChart'), {
+                type: 'doughnut', data: { labels: reportData.charts.expenseDistribution.labels[state.lang], datasets: [{ data: reportData.charts.expenseDistribution.data, backgroundColor: reportData.charts.expenseDistribution.colors, borderColor: state.theme === 'dark' ? '#1f2937' : '#ffffff', borderWidth: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', rtl: state.lang === 'ar' }, tooltip: { rtl: state.lang === 'ar' } } }
+            });
+            
+            chartInstances.cashflow = new Chart(document.getElementById('cashflowChart'), {
+                type: 'line', data: { labels: reportData.charts.cashflow.labels[state.lang], datasets: [{ label: T('cashflowChartYLabel'), data: reportData.charts.cashflow.data, borderColor: '#059669', backgroundColor: 'rgba(5, 150, 105, 0.1)', fill: true, tension: 0.4 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: state.theme === 'dark' ? '#374151' : '#e5e7eb' }, title: { display: true, text: T('cashflowChartYLabel') } }, x: { grid: { display: false } } }, plugins: { legend: { display: false }, tooltip: { rtl: state.lang === 'ar', callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw.toLocaleString()} ر.س` } } } }
+            });
+        };
+        
+        const renderActivitiesTable = () => {
+            const headers = T('activitiesTableHeaders');
+            dom.activitiesThead.innerHTML = '';
+            Object.keys(headers).forEach(key => {
+                const th = document.createElement('th');
+                th.scope = 'col';
+                th.className = 'px-6 py-3 cursor-pointer select-none';
+                th.dataset.sort = key;
+                th.textContent = headers[key] + (state.sort.column === key ? (state.sort.direction === 'asc' ? ' ▲' : ' ▼') : '');
+                dom.activitiesThead.appendChild(th);
+            });
+            
+            const searchTerm = dom.searchInput.value.toLowerCase();
+            let filteredAndSortedData = reportData.activities
+                .filter(item => Object.values(item).some(val => (typeof val === 'string' ? val : val[state.lang]).toLowerCase().includes(searchTerm)))
+                .sort((a, b) => {
+                    const valA = (typeof a[state.sort.column] === 'object') ? a[state.sort.column][state.lang] : a[state.sort.column];
+                    const valB = (typeof b[state.sort.column] === 'object') ? b[state.sort.column][state.lang] : b[state.sort.column];
+                    return (valA < valB ? -1 : valA > valB ? 1 : 0) * (state.sort.direction === 'desc' ? -1 : 1);
+                });
+
+            dom.activitiesTableBody.innerHTML = '';
+            filteredAndSortedData.forEach(item => {
+                const row = dom.activitiesTableBody.insertRow();
+                row.className = 'bg-card-bg dark:bg-card-bg-dark border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors';
+                const formattedDate = new Date(item.date).toLocaleDateString(state.lang === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                row.innerHTML = `
+                    <td class="px-6 py-4">${formattedDate}</td>
+                    <td class="px-6 py-4">${item.type[state.lang]}</td>
+                    <td class="px-6 py-4">${item.description[state.lang]}</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 text-xs font-medium rounded-full ${getStatusBadgeClasses(item.status)}">${item.status[state.lang]}</span></td>
+                `;
+            });
+        };
+
+        const renderTextContent = () => {
+            document.getElementById('kpi-dashboard-title').textContent = T('kpiDashboardTitle');
+            document.getElementById('visualizations-title').textContent = T('visualizationsTitle');
+            document.getElementById('rev-exp-chart-title').textContent = T('revExpChartTitle');
+            document.getElementById('expense-dist-chart-title').textContent = T('expenseDistChartTitle');
+            document.getElementById('cashflow-chart-title').textContent = T('cashflowChartTitle');
+            document.getElementById('activities-title').textContent = T('activitiesTitle');
+            dom.searchInput.placeholder = T('activitiesSearchPlaceholder');
+            document.getElementById('insights-title').textContent = T('insightsTitle');
+            document.getElementById('insights-success-title').textContent = T('insightsSuccessTitle');
+            document.getElementById('insights-success-content').textContent = reportData.insights.success[state.lang];
+            document.getElementById('insights-challenges-title').textContent = T('insightsChallengesTitle');
+            document.getElementById('insights-challenges-content').textContent = reportData.insights.challenges[state.lang];
+            document.getElementById('insights-recommendations-title').textContent = T('insightsRecommendationsTitle');
+            document.getElementById('insights-recommendations-content').textContent = reportData.insights.recommendations[state.lang];
+            document.getElementById('footer-text').textContent = T('footerText');
+        };
+
+        const render = () => {
+            dom.html.lang = state.lang;
+            dom.html.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
+            dom.langToggleBtn.textContent = T('langToggle');
+            dom.printBtn.setAttribute('aria-label', T('printBtnLabel'));
+            
+            renderHeader();
+            renderKPIs();
+            renderTextContent();
+            renderActivitiesTable();
+            renderCharts();
+        };
+        
+        const updateTheme = () => {
+            dom.html.classList.toggle('dark', state.theme === 'dark');
+            dom.themeIconLight.classList.toggle('hidden', state.theme === 'dark');
+            dom.themeIconDark.classList.toggle('hidden', state.theme === 'light');
+        };
+
+        dom.themeToggleBtn.addEventListener('click', () => {
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('theme', state.theme);
+            updateTheme();
+            renderCharts();
+        });
+        dom.langToggleBtn.addEventListener('click', () => { state.lang = state.lang === 'ar' ? 'en' : 'ar'; render(); });
+        dom.printBtn.addEventListener('click', () => window.print());
+        dom.searchInput.addEventListener('input', renderActivitiesTable);
+        dom.activitiesThead.addEventListener('click', (e) => {
+            const headerCell = e.target.closest('[data-sort]');
+            if (!headerCell) return;
+            const column = headerCell.dataset.sort;
+            state.sort.column === column ? state.sort.direction = (state.sort.direction === 'asc' ? 'desc' : 'asc') : (state.sort.column = column, state.sort.direction = 'desc');
+            renderActivitiesTable();
+        });
+        
+        updateTheme();
+        render();
+    });
+    </script>
+</body>
+</html>
